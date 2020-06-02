@@ -125,3 +125,6 @@ override fun onPause() {
 Want to contribute? Great!
 Create a pull request and we will reveiew and merge.
 
+
+## License
+This library is published under Apache License version 2.0 which you can see [here](https://github.com/GeekySingh/Connectivity/blob/master/LICENSE).
