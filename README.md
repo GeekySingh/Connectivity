@@ -65,8 +65,12 @@ Now, to use ConnectivityView in your view, use below code:
 ```sh
     <com.gappscorp.connectivity.ConnectivityView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+	app:offlineText="@string/your_offline_message"
+        app:onlineText="@string/your_online_message" />
 ```
+
+Use app:offlineText and app:onlineText attributes in case if you wish to provide your own message.
 
 And you are DONE. This view will automatically capture network events and will appear when there is no network connection. Once you got Internet connection back, it will show that you are online and will hide itself.
 ##### ConnectivityView is lifecycle aware view, so it will automatically register/unregister network event listener when this view is attached/detached.
@@ -105,7 +109,10 @@ override fun onPause() {
 }
 ```
 
-#### Screenshots
+
+#### Screenshot
+
+![](https://github.com/GeekySingh/Connectivity/blob/master/screenshots/connectivity_change.gif)
 
 
 ### Projects using Connectivity
@@ -118,19 +125,3 @@ override fun onPause() {
 Want to contribute? Great!
 Create a pull request and we will reveiew and merge.
 
-License
-----
-
-Copyright 2020 GeekySingh
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
