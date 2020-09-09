@@ -24,7 +24,7 @@ allprojects {
 Add it in build.gradle of your app:
 ```sh
 dependencies {
-	   implementation 'com.github.GeekySingh:Connectivity:1.0'
+	   implementation 'com.github.GeekySingh:Connectivity:1.1.1'
 }
 ```
 
