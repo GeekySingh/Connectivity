@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
-internal class ConnectivityLiveData(private val defaultValue: Boolean) : LiveData<Boolean>(defaultValue) {
+class ConnectivityLiveData(private val defaultValue: Boolean) : LiveData<Boolean>(defaultValue) {
 
     private lateinit var connectivityManager: ConnectivityManager
 
@@ -25,10 +25,8 @@ internal class ConnectivityLiveData(private val defaultValue: Boolean) : LiveDat
                 }
             }
         }
-        // if network was not available while registering callback,
-        // notify newly attached listener
-        if (!value!!)
-            listener.onConnectivityChanged(false)
+        // notify newly attached listener about the current network state
+        listener.onConnectivityChanged(value!!)
     }
 
     fun removeConnectionListener(listener: ConnectionListener) {

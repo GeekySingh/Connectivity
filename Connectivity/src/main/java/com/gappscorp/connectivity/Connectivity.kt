@@ -13,28 +13,28 @@ interface ConnectionListener {
 
 object Connectivity : LifecycleObserver {
 
-    private val connectivityLiveData by lazy { ConnectivityLiveData(DEFAULT_VALUE) }
+    val connectionLiveData by lazy { ConnectivityLiveData(DEFAULT_VALUE) }
 
-    val isConnected: Boolean get() = connectivityLiveData.value!!// ?: false
+    val isConnected: Boolean get() = connectionLiveData.value!!// ?: false
 
     fun bind(application: Application) {
         application.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallback {
             override fun onActivityResumed(activity: Activity) {
                 if (activity is LifecycleOwner)
-                    connectivityLiveData.bind(activity)
+                    connectionLiveData.bind(activity)
             }
 
             override fun onActivityPaused(activity: Activity) {
-                connectivityLiveData.unBind()
+                connectionLiveData.unBind()
             }
         })
     }
 
     fun addConnectionListener(listener: ConnectionListener) {
-        connectivityLiveData.addConnectionListener(listener)
+        connectionLiveData.addConnectionListener(listener)
     }
 
     fun removeConnectionListener(listener: ConnectionListener) {
-        connectivityLiveData.removeConnectionListener(listener)
+        connectionLiveData.removeConnectionListener(listener)
     }
 }
