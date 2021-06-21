@@ -47,18 +47,18 @@ class ConnectivityLiveData(private val defaultValue: Boolean) : LiveData<Boolean
     override fun observe(owner: LifecycleOwner, observer: Observer<in Boolean>) {
         if (owner is Context && !::connectivityManager.isInitialized) {
             connectivityManager =
-                    owner.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                owner.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         }
         super.observe(owner, observer)
     }
 
     override fun onActive() {
         connectivityManager.registerNetworkCallback(
-                NetworkRequest.Builder()
-                        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                        .build(),
-                networkCallback
+            NetworkRequest.Builder()
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .build(),
+            networkCallback
         )
     }
 
@@ -67,17 +67,27 @@ class ConnectivityLiveData(private val defaultValue: Boolean) : LiveData<Boolean
     }
 
     private val networkCallback = object :
-            ConnectivityManager.NetworkCallback() {
+        ConnectivityManager.NetworkCallback() {
+
+        override fun onCapabilitiesChanged(
+            network: Network,
+            networkCapabilities: NetworkCapabilities
+        ) {
+            postValue(
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || networkCapabilities.hasTransport(
+                    NetworkCapabilities.TRANSPORT_CELLULAR
+                )
+            )
+        }
+
         override fun onAvailable(network: Network) {
-            postValue(true)
-        }
-
-        override fun onUnavailable() {
-            postValue(false)
-        }
-
-        override fun onLost(network: Network) {
-            postValue(false)
+            connectivityManager.getNetworkCapabilities(network)?.let {
+                postValue(
+                    it.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || it.hasTransport(
+                        NetworkCapabilities.TRANSPORT_CELLULAR
+                    )
+                )
+            }
         }
     }
 }
